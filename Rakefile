@@ -33,8 +33,8 @@ end
 task :preview do
   base = Pathname.new('.').expand_path
   options = {
-    "source"        => base.join('test').to_s,
-    "destination"   => base.join('test/_site').to_s,
+    "source"        => base.join('.').to_s,
+    "destination"   => base.join('./_site').to_s,
     "force_polling" => false,
     "serving"       => true,
     "theme"         => "minimal-mistakes-jekyll"
