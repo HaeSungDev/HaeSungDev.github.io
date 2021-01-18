@@ -96,9 +96,7 @@ author:
   name             : "Harry"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : |
-    HaeSung Lee
-    
-    NHN Developer
+    HaeSung Lee<br/>NHN Developer
   location         : "Korea"
   email            :
   links:
