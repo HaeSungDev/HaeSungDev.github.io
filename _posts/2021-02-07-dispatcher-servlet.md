@@ -108,16 +108,16 @@ DispatchServlet에는 doGet이 없기때문에 부모 추상 클래스인 Frame
 5. processDispatchResult (in DispatcherServlet)
 
 핸들러를 찾아서 실행하는 부분은 DispatcherServlet의 doDispatch 메소드에 있기 때문에 doDispatch 메소드에 브레이크 포인트를 걸어줍니다.
-![브레이킹포인트](../assets/images/2021-02-07-dispatcher-servlet/image1.png)
+![브레이킹포인트](/assets/images/2021-02-07-dispatcher-servlet/image1.png)
 
 intellij main에서 좌측 실행 버튼을 클릭하고 debug 모드로 진입합니다.
-![디버깅실행1](../assets/images/2021-02-07-dispatcher-servlet/image2.png)
+![디버깅실행1](/assets/images/2021-02-07-dispatcher-servlet/image2.png)
 
 디버깅 모드가 실행되고 브라우져에서 localhost:8080/hello에 접속하면 브레이크가 걸리는 것을 확인 할 수 있습니다.
-![디버깅실행2](../assets/images/2021-02-07-dispatcher-servlet/image3.png)
+![디버깅실행2](/assets/images/2021-02-07-dispatcher-servlet/image3.png)
 
 *이제 F8 버튼을 누르면서 코드를 한단계씩 실행하다보면 다음과 같은 부분이 나옵니다.*
-![디버깅실행3](../assets/images/2021-02-07-dispatcher-servlet/image4.png)
+![디버깅실행3](/assets/images/2021-02-07-dispatcher-servlet/image4.png)
 
 위 단계는 다음과 같은 순서로 진행됩니다.
 1. `processedRequest = this.checkMultipart(request);` - 요청이 multipart 타입인지 확인합니다.
@@ -131,7 +131,7 @@ getHandler 메소드는 여러가지 복잡한 단계를 거쳐 handler를 찾�
 더 많은 단계가 있지만 쉽게 생각해서 request의 path와 method를 처리할 수 있는 handler 객체를 찾는다고 생각하시면 좋을 것 같습니다. 훨씬 단순하긴 하지만 위에서 설명했던 Front Controller 패턴의 map에서 Servlet 객체를 찾는 과정과 동일한 부분입니다.
 
 *이제 또 다음단계로 진행하기 위해 F8 버튼을 클릭해주면 다음과 같은 부분이 나옵니다.*
-![디버깅실행5](../assets/images/2021-02-07-dispatcher-servlet/image5.png)
+![디버깅실행5](/assets/images/2021-02-07-dispatcher-servlet/image5.png)
 
 ```
 HandlerAdapter ha = this.getHandlerAdapter(mappedHandler.getHandler());
@@ -145,16 +145,16 @@ HandlerAdapter ha = this.getHandlerAdapter(mappedHandler.getHandler());
 
 *다시 F8 버튼을 눌러서 다음 단계로 진행하겠습니다. isGet을 체크하는 부분은 웹 캐싱과 관련된 부분으로 생략하겠습니다.*
 
-![디버깅실행5](../assets/images/2021-02-07-dispatcher-servlet/image6.png)
+![디버깅실행5](/assets/images/2021-02-07-dispatcher-servlet/image6.png)
 위 부분은 handler 메소드 실행 전에 interceptor가 실행되는 부분입니다. 웹 개발할 때 interceptor에 뭔가 문제가 있다면 해당 부분을 디버깅 해보는 것도 큰 도움이 될 것 같습니다.
 
 *F8을 눌러서 또 진행하도록 하겠습니다* 드디어 handler 메소드가 실행되는 부분입니다.
-![디버깅실행5](../assets/images/2021-02-07-dispatcher-servlet/image7.png)
+![디버깅실행5](/assets/images/2021-02-07-dispatcher-servlet/image7.png)
 
 handler 메소드는 가장 핵심이 되는 부분으로 F7을 누르면서 메소드 실행 내용을 한 단계씩 보도록 하겠습니다. F7 버튼을 몇번 누르다 보면 RequestMappingHandlerAdapter라는 클래스의 handleInternal이라는 메소드에 진입하게 됩니다.
 
 가장 중요한 부분은 this.invokeHandlerMethod를 호출하는 부분입니다.
-![디버깅실행5](../assets/images/2021-02-07-dispatcher-servlet/image8.png)
+![디버깅실행5](/assets/images/2021-02-07-dispatcher-servlet/image8.png)
 
 invokeHandlerMethod 내부를 보면 HandlerMethod를 호출 가능하도록 ServletInvocableHandlerMethod 객체로 변환을 하고 여러가지 과정을 거칩니다.
 
@@ -185,7 +185,7 @@ invocableMethod.invokeAndHandle(webRequest, mavContainer, new Object[0]);
 
 *다시 F8을 눌러 RequestMappingHandlerAdapter의 실행을 마치고 DispatcherServlet 코드 실행으로 돌아갑니다*
 
-![디버깅실행5](../assets/images/2021-02-07-dispatcher-servlet/image9.png)
+![디버깅실행5](/assets/images/2021-02-07-dispatcher-servlet/image9.png)
 
 단계별로 설명드리겠습니다.
 1. `mv = ha.handle(processedRequest, response, mappedHandler.getHandler());` - 실행 된 handler의 결과인 ModelAndView가 반환됩니다.
@@ -193,7 +193,7 @@ invocableMethod.invokeAndHandle(webRequest, mavContainer, new Object[0]);
 3. `mappedHandler.applyPostHandle(processedRequest, response, mv);` - handle 실행 이후의 인터셉터가 실행됩니다.
 
 마지막으로 렌더링처리를 하고 클라이언트에게 응답을 합니다.
-![디버깅실행5](../assets/images/2021-02-07-dispatcher-servlet/image10.png)
+![디버깅실행5](/assets/images/2021-02-07-dispatcher-servlet/image10.png)
 
 ## 마무리
 
