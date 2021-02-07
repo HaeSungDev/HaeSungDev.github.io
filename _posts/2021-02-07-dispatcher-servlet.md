@@ -6,15 +6,15 @@ categories:
 last_modified_at: 2021-02-07T10:40:00
 ---
 
-웹 애플리케이션을 개발할 때 인증, 로깅, 뷰 템플릿 처리 등 많은 기능이 필요합니다. 이런 기능들을 직접 다 개발하면 생산성이 낮아지고 비즈니스 요구사항 반영에 집중하지 못하게 됩니다. Spring Web MVC는 이런 문제를 해결하기 위해 프레임워크 형태로 웹 개발에 필요한 다양한 기능들을 제공해줘서 개발자의 생산성을 크게 높여줍니다.
+Spring Web Mvc로 웹 애플리케이션을 개발해보신 분들은 정말 짧은 코드로 웹 요청이 처리돼서 신기하다고 생각하신 분들이 많을 것 같습니다. 특히 Spring Boot를 사용하면 너무 쉽게 웹 요청을 처리 할 수 있습니다.
+
+어떻게 이렇게 쉽게 웹 요청을 처리할 수 있는지 알아보도록 하겠습니다.
 
 Spring Web MVC는 Servlet 기술을 기반으로 만들어졌고 Servlet을 이용해서 웹 요청을 처리하고 응답합니다. Spring Web MVC에서는 웹 요청을 DispatcherServlet이 전담해서 처리합니다. 따라서 Spring Web MVC의 요청 처리를 분석하는 것은 결국 DispathcherServlet을 분석하는 것입니다.
 
-DispathcherServlet이 필요한 이유를 알아보고 구조를 분석해보도록 하겠습니다.
+## DispatcherServlet이란?
 
-## DispatcherServlet이 필요한 이유
-
-DispathcerServlet이 필요한 이유를 이해하려면 Servlet과 Front Controller 패턴이 무엇인지 알고있어야 합니다. 두 개념에 대해 간단히 알아보도록 하겠습니다.
+DispathcerServlet이 무엇인지 이해하려면 Servlet과 Front Controller 패턴이 무엇인지 알고있어야 합니다. 두 개념에 대해 간단히 알아보도록 하겠습니다.
 
 ### Servlet이란?
 
@@ -52,14 +52,29 @@ public class MoodServlet extends HttpServlet {
 
 위 예제에서는 get 요청시 공통 로깅 처리 후 handler map에서 처리 handler를 찾아서 요청 처리를 분기하는 코드입니다. 상용 웹 애플리케이션에서는 훨씬 많은 공통 기능이 들어 갈 수 있습니다.
 
-Spring Web MVC의 DispathcherServlet에서는 웹 개발시 많이 쓰이는 수많은 공통 기능들을 미리 구현해놓았습니다.
+### DispatcherServlet
 
-정리하면 DispathcerServlet은 웹 개발시 많이 필요한 공통 기능들을 통합하는 Front Controller의 구현체라고 할 수 있습니다. 웹 개발시 필요한 기능들을 미리 제공해줘서 생산성있게 웹 애플리케이션을 빠르게 개발할 수 있도록 도와줍니다.
+Servlet과 Front Controller를 왜 먼저 알아봤는지 대충 짐작하셨을 것 같습니다. DispatcherServlet은 Spring Web Mvc에서 Front Controller 패턴을 구현한 Servlet입니다. 따라서 수많은 기능들을 통합해서 개발자들이 쉽게 웹 요청을 처리할 수 있도록 개발할 수 있도록 도와줍니다.
 
-이제 DispathcherServlet이 어떤 구조로 되어있는지 분석해보도록 하겠습니다.
+그럼 이제 DispatcherServlet 클래스의 내부를 분석해보고 어떻게 요청을 처리하는지 알아보겠습니다.
 
-## DispathcerServlet 요청 처리 분석
+## DispatcherServlet 분석
 
+DispathcerServlet의 모든 기능을 이 글에서 한번에 다룰 수는 없기 때문에 get 요청을 처리하는 방식만 분석해보겠습니다. 나머지 기능들은 직접 분석해보시면 좋을 것 같습니다 :)
+
+코드를 분석할 때 모든 코드를 눈으로 읽는 것도 좋지만 IDE의 debugging 기능을 활용하면 좀 더 쉽고 빠르게 코드를 이해할 수 있다고 생각합니다.
+
+두 가지 종류의 Controller 를 디버깅하면서 DispatcherServlet을 분석해보겠습니다.
+
+```
+DispatcherServlet 분석 환경
+- Intellij CE
+- Spring Boot 프로젝트(Spring Web 의존성만 추가)
+```
+
+### View를 반환하는 Controller 메소드
+
+### json을 반환하는 Controller 메소드
 
 ## 참고
 
