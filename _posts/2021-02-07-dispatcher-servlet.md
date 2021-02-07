@@ -18,15 +18,19 @@ DispathcerServlet이 무엇인지 이해하려면 Servlet과 Front Controller �
 
 ### Servlet이란?
 
-Servlet은 http 요청을 동적으로 처리하기 위한 Java EE의 스펙입니다. 요청을 동적으로 처리하는 코드를 Servlet 클래스를 스펙에 맞게 구현하고 Servlet 컨테이너에 등록하면 요청이 들어올 때 요청 Path에 해당하는 Servlet 클래스를 실행시켜줍니다.
+Servlet은 http 요청을 동적으로 처리하기 위한 Java EE의 스펙입니다.
 
-Servlet을 활용하면 클라이언트의 요청에 따라 다양한 동작을 수행하는 코드를 작성할 수 있습니다. 여러개의 Servlet을 만들어서 다양한 요청을 처리할 수 있습니다. 그런데 웹에서는 보통 보안, 로깅 등의 공통적인 동작을 하는 코드가 포함 될 때가 많은데 Servlet을 여러개 만들다보면 공통 코드가 중복되는 일이 생길 수 있습니다.
+요청을 동적으로 처리하는 코드를 Servlet 클래스를 스펙에 맞게 구현하고 Servlet 컨테이너에 등록하면 요청이 들어올 때 요청 Path에 해당하는 Servlet 클래스를 실행시켜줍니다.
 
-이런 중복을 줄이기 위해 Front Controller라는 패턴이 나왔고 DispathcerServlet은 Front Controller 패턴의 구현체입니다.
+Servlet을 활용하면 클라이언트의 요청에 따라 다양한 동작을 수행하는 코드를 작성할 수 있습니다. 그런데 Servlet을 여러개 만들어서 개발을 하다보면 보안, 로깅 등의 공통적인 동작을 하는 코드의 중복이 생길 때 가 많습니다.
+
+이런 중복을 줄이기 위해 Front Controller라는 패턴이 나왔습니다.
 
 ### Front Controller 패턴이란?
 
-Front Controller 패턴은 Servlet에서 공통되는 기능들을 통합하기 위한 패턴입니다. 하나의 Servlet 구현체만 Servlet Container에 등록해서 공통되는 기능들을 한번만 작성하고 Servlet 내부에서 path, header 등으로 요청 처리가 분기 되도록 구현합니다.
+Front Controller 패턴은 Servlet에서 공통되는 기능들을 통합하기 위한 패턴입니다.
+
+하나의 Servlet 구현체만 Servlet Container에 등록해서 공통되는 기능들을 한번만 작성하고 Servlet 내부에서 path, header 등으로 요청 처리가 분기 되도록 구현합니다.
 
 간단한 Front Controller 패턴의 예시입니다.
 
@@ -54,7 +58,9 @@ public class MoodServlet extends HttpServlet {
 
 ### DispatcherServlet
 
-Servlet과 Front Controller를 왜 먼저 알아봤는지 대충 짐작하셨을 것 같습니다. DispatcherServlet은 Spring Web Mvc에서 Front Controller 패턴을 구현한 Servlet입니다. 따라서 수많은 기능들을 통합해서 개발자들이 쉽게 웹 요청을 처리할 수 있도록 개발할 수 있도록 도와줍니다.
+Servlet과 Front Controller를 왜 먼저 알아봤는지 대충 짐작하셨을 것 같습니다. 
+
+DispatcherServlet은 Spring Web Mvc에서 Front Controller 패턴을 구현한 Servlet입니다. 따라서 수많은 기능들을 통합해서 개발자들이 쉽게 웹 요청을 처리할 수 있도록 개발할 수 있도록 도와줍니다.
 
 그럼 이제 DispatcherServlet 클래스의 내부를 분석해보고 어떻게 요청을 처리하는지 알아보겠습니다.
 
