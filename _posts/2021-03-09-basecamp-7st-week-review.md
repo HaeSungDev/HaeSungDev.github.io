@@ -1,5 +1,5 @@
 ---
-title:  "베이스캠프 8주차 회고"
+title:  "베이스캠프 7주차 회고"
 search: true
 categories: 
   - Basecamp
